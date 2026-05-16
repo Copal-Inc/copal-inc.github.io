@@ -79,7 +79,8 @@
     /* ─── SVG Animated Tree ─── */
     .tree-sway {
       animation: treeSway 11s ease-in-out infinite;
-      transform-origin: 200px 398px;
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
     }
     circle.lc {
       transform-box: fill-box;
@@ -145,6 +146,59 @@
       transition: border-color .3s;
     }
     .team-placeholder:hover { border-color: rgba(123,201,138,.3); }
+
+    /* ─── Service card shimmer ─── */
+    .service-card { position: relative; overflow: hidden; }
+    .service-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 55%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(123,201,138,.07), transparent);
+      pointer-events: none;
+    }
+    .service-card:hover::after { animation: cardShimmer .7s ease forwards; }
+    @keyframes cardShimmer {
+      from { left: -100%; }
+      to   { left: 160%; }
+    }
+
+    /* ─── Process line draw ─── */
+    .proc-line {
+      transform: scaleY(0);
+      transform-origin: top;
+      transition: transform .55s ease-out;
+    }
+    .proc-line.drawn { transform: scaleY(1); }
+
+    /* ─── Why Copal floating particles ─── */
+    .why-particle {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(123,201,138,.07);
+      pointer-events: none;
+      animation: particleFloat ease-in-out infinite;
+    }
+    @keyframes particleFloat {
+      0%,100% { transform: translateY(0) scale(1); opacity:.6; }
+      50%     { transform: translateY(-22px) scale(1.08); opacity:1; }
+    }
+
+    /* ─── Contact CTA pulse ring ─── */
+    .btn-cta-pulse { position: relative; }
+    .btn-cta-pulse::before {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border-radius: 9999px;
+      border: 2px solid rgba(123,201,138,.45);
+      animation: ctaRing 2.4s ease-out infinite;
+      pointer-events: none;
+    }
+    @keyframes ctaRing {
+      0%   { transform: scale(1);    opacity:.8; }
+      100% { transform: scale(1.14); opacity:0;  }
+    }
   </style>
 </head>
 
@@ -248,7 +302,7 @@
       <!-- RIGHT — animated Copal tree SVG -->
       <div class="flex justify-center items-end" data-aos="fade-left" data-aos-delay="300">
         <svg
-          viewBox="0 0 400 420"
+          viewBox="0 0 500 540"
           xmlns="http://www.w3.org/2000/svg"
           class="w-56 sm:w-72 lg:w-full lg:max-w-sm xl:max-w-md drop-shadow-2xl"
           aria-label="Árbol Copal animado"
@@ -256,50 +310,37 @@
           <g class="tree-sway">
 
             <!-- Trunk -->
-            <rect x="186" y="262" width="28" height="138" rx="14" fill="#8A6240"/>
+            <rect x="235" y="298" width="30" height="210" rx="15" fill="#8A6240"/>
 
-            <!-- ── Branches ── -->
-            <!-- Center spine: trunk top → crown -->
-            <line x1="200" y1="262" x2="200" y2="130" stroke="#8A6240" stroke-width="16" stroke-linecap="round"/>
+            <!-- ── Main branches ── -->
+            <line x1="250" y1="298" x2="250" y2="148" stroke="#8A6240" stroke-width="17" stroke-linecap="round"/>
+            <line x1="244" y1="332" x2="140" y2="255" stroke="#8A6240" stroke-width="17" stroke-linecap="round"/>
+            <line x1="256" y1="332" x2="360" y2="255" stroke="#8A6240" stroke-width="17" stroke-linecap="round"/>
 
-            <!-- Left main arm -->
-            <line x1="196" y1="282" x2="108" y2="216" stroke="#8A6240" stroke-width="16" stroke-linecap="round"/>
-            <!-- Right main arm -->
-            <line x1="204" y1="282" x2="292" y2="216" stroke="#8A6240" stroke-width="16" stroke-linecap="round"/>
+            <!-- ── Sub-branches left ── -->
+            <line x1="140" y1="255" x2="72"  y2="178" stroke="#8A6240" stroke-width="13" stroke-linecap="round"/>
+            <line x1="140" y1="255" x2="188" y2="182" stroke="#8A6240" stroke-width="13" stroke-linecap="round"/>
+            <line x1="244" y1="358" x2="132" y2="260" stroke="#8A6240" stroke-width="12" stroke-linecap="round"/>
 
-            <!-- Left sub-branches (from arm tip 108,216) -->
-            <line x1="108" y1="216" x2="60"  y2="170" stroke="#8A6240" stroke-width="11" stroke-linecap="round"/>
-            <line x1="108" y1="216" x2="122" y2="152" stroke="#8A6240" stroke-width="11" stroke-linecap="round"/>
-            <line x1="112" y1="228" x2="100" y2="248" stroke="#8A6240" stroke-width="10" stroke-linecap="round"/>
+            <!-- ── Sub-branches right ── -->
+            <line x1="360" y1="255" x2="428" y2="178" stroke="#8A6240" stroke-width="13" stroke-linecap="round"/>
+            <line x1="360" y1="255" x2="312" y2="182" stroke="#8A6240" stroke-width="13" stroke-linecap="round"/>
+            <line x1="256" y1="358" x2="368" y2="260" stroke="#8A6240" stroke-width="12" stroke-linecap="round"/>
 
-            <!-- Right sub-branches (from arm tip 292,216) -->
-            <line x1="292" y1="216" x2="340" y2="170" stroke="#8A6240" stroke-width="11" stroke-linecap="round"/>
-            <line x1="292" y1="216" x2="278" y2="152" stroke="#8A6240" stroke-width="11" stroke-linecap="round"/>
-            <line x1="288" y1="228" x2="300" y2="248" stroke="#8A6240" stroke-width="10" stroke-linecap="round"/>
+            <!-- ── Center spine sub-branches ── -->
+            <line x1="250" y1="198" x2="162" y2="128" stroke="#8A6240" stroke-width="13" stroke-linecap="round"/>
+            <line x1="250" y1="198" x2="338" y2="128" stroke="#8A6240" stroke-width="13" stroke-linecap="round"/>
 
-            <!-- Center sub-branches (off spine at y≈168) -->
-            <line x1="200" y1="168" x2="148" y2="136" stroke="#8A6240" stroke-width="12" stroke-linecap="round"/>
-            <line x1="200" y1="168" x2="252" y2="136" stroke="#8A6240" stroke-width="12" stroke-linecap="round"/>
-
-            <!-- ── Leaf clusters ── -->
-            <!-- C1 — crown top, largest -->
-            <circle cx="200" cy="100" r="38" fill="#7BC98A"  class="lc lc1"/>
-            <!-- C2 — upper left -->
-            <circle cx="146" cy="128" r="31" fill="#6BB87A"  class="lc lc2"/>
-            <!-- C3 — upper right -->
-            <circle cx="254" cy="128" r="31" fill="#7BC98A"  class="lc lc3"/>
-            <!-- C4 — far left -->
-            <circle cx="50"  cy="162" r="28" fill="#7BC98A"  class="lc lc4"/>
-            <!-- C5 — inner left -->
-            <circle cx="116" cy="146" r="27" fill="#5AAA70"  class="lc lc5"/>
-            <!-- C6 — inner right -->
-            <circle cx="284" cy="146" r="27" fill="#6BB87A"  class="lc lc6"/>
-            <!-- C7 — far right -->
-            <circle cx="350" cy="162" r="28" fill="#7BC98A"  class="lc lc7"/>
-            <!-- C8 — lower left -->
-            <circle cx="96"  cy="246" r="26" fill="#6BB87A"  class="lc lc8"/>
-            <!-- C9 — lower right -->
-            <circle cx="304" cy="246" r="26" fill="#7BC98A"  class="lc lc9"/>
+            <!-- ── Leaf clusters — ellipses for organic shape ── -->
+            <ellipse cx="250" cy="88"  rx="54" ry="44" fill="#7BC98A" class="lc lc1"/>
+            <ellipse cx="158" cy="122" rx="48" ry="38" fill="#6BB87A" class="lc lc2"/>
+            <ellipse cx="342" cy="122" rx="48" ry="38" fill="#7BC98A" class="lc lc3"/>
+            <ellipse cx="72"  cy="172" rx="45" ry="37" fill="#7BC98A" class="lc lc4"/>
+            <ellipse cx="188" cy="178" rx="44" ry="36" fill="#5AAA70" class="lc lc5"/>
+            <ellipse cx="312" cy="178" rx="44" ry="36" fill="#6BB87A" class="lc lc6"/>
+            <ellipse cx="428" cy="172" rx="45" ry="37" fill="#7BC98A" class="lc lc7"/>
+            <ellipse cx="132" cy="255" rx="44" ry="36" fill="#6BB87A" class="lc lc8"/>
+            <ellipse cx="368" cy="255" rx="44" ry="36" fill="#7BC98A" class="lc lc9"/>
 
           </g>
         </svg>
@@ -329,31 +370,31 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
-      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="fade-up" data-aos-delay="0">
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="zoom-in" data-aos-delay="0">
         <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">💻</div>
         <h3 class="font-serif text-xl font-bold text-espresso mb-2">Desarrollo de Software</h3>
         <p class="text-slate-c text-sm leading-relaxed">Plataformas web, aplicaciones móviles y sistemas a medida construidos con arquitecturas modernas y buenas prácticas de ingeniería.</p>
       </div>
 
-      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="fade-up" data-aos-delay="80">
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="zoom-in" data-aos-delay="80">
         <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">🎨</div>
         <h3 class="font-serif text-xl font-bold text-espresso mb-2">Diseño UX/UI</h3>
         <p class="text-slate-c text-sm leading-relaxed">Interfaces intuitivas centradas en el usuario. Diseñamos experiencias que convierten visitantes en clientes y simplifican flujos complejos.</p>
       </div>
 
-      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="fade-up" data-aos-delay="160">
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="zoom-in" data-aos-delay="160">
         <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">☁️</div>
         <h3 class="font-serif text-xl font-bold text-espresso mb-2">Infraestructura Cloud</h3>
         <p class="text-slate-c text-sm leading-relaxed">Arquitectura escalable y confiable en AWS, GCP o Azure. Tu infraestructura lista para operar sin fricciones y crecer contigo.</p>
       </div>
 
-      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="fade-up" data-aos-delay="240">
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="zoom-in" data-aos-delay="240">
         <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">🔧</div>
         <h3 class="font-serif text-xl font-bold text-espresso mb-2">Soporte y Mantenimiento</h3>
         <p class="text-slate-c text-sm leading-relaxed">Monitoreo continuo, corrección de bugs, actualizaciones de seguridad y soporte técnico dedicado para mantener tu plataforma al 100%.</p>
       </div>
 
-      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default md:col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="320">
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default md:col-span-2 lg:col-span-1" data-aos="zoom-in" data-aos-delay="320">
         <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">🔒</div>
         <h3 class="font-serif text-xl font-bold text-espresso mb-2">Redes y Ciberseguridad</h3>
         <p class="text-slate-c text-sm leading-relaxed">Auditorías de seguridad, configuración de redes y políticas de protección de datos para blindar tu infraestructura frente a amenazas.</p>
@@ -365,8 +406,9 @@
 
 
 <!-- ===== WHY COPAL ===== -->
-<section class="bg-espresso py-24 px-6 lg:px-10 relative overflow-hidden">
+<section class="bg-espresso py-24 px-6 lg:px-10 relative overflow-hidden why-particles-wrapper">
   <div class="absolute inset-0 dot-pattern opacity-50 pointer-events-none"></div>
+  <div id="why-particles" class="absolute inset-0 pointer-events-none z-0"></div>
   <div class="max-w-7xl mx-auto relative z-10">
 
     <div class="mb-14" data-aos="fade-up">
@@ -378,22 +420,22 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
       <div data-aos="fade-up" data-aos-delay="0">
-        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">01</div>
+        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none" data-target="1">01</div>
         <h3 class="font-serif text-lg font-bold text-ivory mb-2">End-to-end</h3>
         <p class="text-mid-gray text-sm leading-relaxed">De la idea a producción. Un equipo cubre diseño, desarrollo, infraestructura y soporte sin fricciones entre áreas.</p>
       </div>
       <div data-aos="fade-up" data-aos-delay="100">
-        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">02</div>
+        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none" data-target="2">02</div>
         <h3 class="font-serif text-lg font-bold text-ivory mb-2">Transparencia total</h3>
         <p class="text-mid-gray text-sm leading-relaxed">Cotizaciones detalladas, cronogramas claros y comunicación continua en cada etapa del proyecto.</p>
       </div>
       <div data-aos="fade-up" data-aos-delay="200">
-        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">03</div>
+        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none" data-target="3">03</div>
         <h3 class="font-serif text-lg font-bold text-ivory mb-2">Stack moderno</h3>
         <p class="text-mid-gray text-sm leading-relaxed">Tecnologías actuales y probadas para entregar productos robustos, escalables y fáciles de mantener.</p>
       </div>
       <div data-aos="fade-up" data-aos-delay="300">
-        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">04</div>
+        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none" data-target="4">04</div>
         <h3 class="font-serif text-lg font-bold text-ivory mb-2">Equipo dedicado</h3>
         <p class="text-mid-gray text-sm leading-relaxed">Ingenieros y diseñadores asignados a tu proyecto que entienden tu contexto y objetivos de negocio.</p>
       </div>
@@ -423,7 +465,7 @@
             <div class="w-10 h-10 rounded-full bg-jade-pale border-2 border-jade flex items-center justify-center flex-shrink-0">
               <span class="text-jade-deep font-bold text-sm">1</span>
             </div>
-            <div class="w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
+            <div class="proc-line w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
           </div>
           <div class="pb-8 pt-1">
             <h3 class="font-serif text-lg font-bold text-espresso mb-1">Descubrimiento</h3>
@@ -436,7 +478,7 @@
             <div class="w-10 h-10 rounded-full bg-jade-pale border-2 border-jade flex items-center justify-center flex-shrink-0">
               <span class="text-jade-deep font-bold text-sm">2</span>
             </div>
-            <div class="w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
+            <div class="proc-line w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
           </div>
           <div class="pb-8 pt-1">
             <h3 class="font-serif text-lg font-bold text-espresso mb-1">Diseño</h3>
@@ -449,7 +491,7 @@
             <div class="w-10 h-10 rounded-full bg-jade-pale border-2 border-jade flex items-center justify-center flex-shrink-0">
               <span class="text-jade-deep font-bold text-sm">3</span>
             </div>
-            <div class="w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
+            <div class="proc-line w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
           </div>
           <div class="pb-8 pt-1">
             <h3 class="font-serif text-lg font-bold text-espresso mb-1">Desarrollo</h3>
@@ -462,7 +504,7 @@
             <div class="w-10 h-10 rounded-full bg-jade-pale border-2 border-jade flex items-center justify-center flex-shrink-0">
               <span class="text-jade-deep font-bold text-sm">4</span>
             </div>
-            <div class="w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
+            <div class="proc-line w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
           </div>
           <div class="pb-8 pt-1">
             <h3 class="font-serif text-lg font-bold text-espresso mb-1">Entrega</h3>
@@ -607,7 +649,7 @@
         <textarea name="mensaje" rows="4" placeholder="Cuéntanos sobre tu proyecto..." required
           class="form-input bg-white border border-cream rounded-xl px-4 py-3.5 text-sm text-espresso placeholder-slate-c/50 w-full resize-none"></textarea>
         <button type="submit"
-          class="bg-jade text-espresso font-semibold px-7 py-3.5 rounded-full btn-jade w-full flex items-center justify-center gap-2.5 text-sm">
+          class="bg-jade text-espresso font-semibold px-7 py-3.5 rounded-full btn-jade btn-cta-pulse w-full flex items-center justify-center gap-2.5 text-sm">
           Enviar mensaje
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -641,6 +683,52 @@
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
   AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 60 });
+
+  // ── Count-up for Why Copal numbers ──
+  (function () {
+    function countUp(el, target) {
+      const t0 = performance.now(), dur = 1400;
+      (function step(now) {
+        const p = Math.min((now - t0) / dur, 1);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = String(Math.round(e * target)).padStart(2, '0');
+        if (p < 1) requestAnimationFrame(step);
+      })(t0);
+    }
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { countUp(en.target, +en.target.dataset.target); obs.unobserve(en.target); }
+      });
+    }, { threshold: 0.6 });
+    document.querySelectorAll('[data-target]').forEach(el => obs.observe(el));
+  })();
+
+  // ── Process line draw on scroll ──
+  (function () {
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('drawn'); obs.unobserve(en.target); } });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.proc-line').forEach(el => obs.observe(el));
+  })();
+
+  // ── Why Copal floating particles ──
+  (function () {
+    const container = document.getElementById('why-particles');
+    if (!container) return;
+    for (let i = 0; i < 9; i++) {
+      const p = document.createElement('div');
+      p.className = 'why-particle';
+      const size = 25 + Math.random() * 65;
+      p.style.cssText = [
+        `left:${Math.random()*100}%`,
+        `top:${Math.random()*100}%`,
+        `width:${size}px`, `height:${size}px`,
+        `animation-duration:${5 + Math.random() * 8}s`,
+        `animation-delay:${-Math.random() * 12}s`,
+      ].join(';');
+      container.appendChild(p);
+    }
+  })();
 
   // Falling leaf particles
   (function () {
