@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Copal Inc — Transformación Digital</title>
+  <meta name="description" content="Diseñamos y construimos productos digitales a medida para startups y empresas en crecimiento.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            jade:        '#7BC98A',
+            'jade-deep': '#3A7A52',
+            'jade-mist': '#B4DFC0',
+            'jade-pale': '#E4F3E8',
+            espresso:    '#0F141B',
+            walnut:      '#7A4A2E',
+            caramel:     '#C49468',
+            ivory:       '#F5F0E6',
+            cream:       '#E8E2D5',
+            'mid-gray':  '#9BA0A8',
+            'slate-c':   '#4A5058',
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans:  ['Inter', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    [x-cloak] { display: none !important; }
+
+    .dot-pattern {
+      background-image: radial-gradient(rgba(123,201,138,.13) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .tagline-em {
+      font-style: italic;
+      color: #7BC98A;
+    }
+    .hero-tree {
+      position: absolute;
+      right: 4%;
+      bottom: 0;
+      height: 88%;
+      opacity: .055;
+      pointer-events: none;
+      user-select: none;
+      filter: grayscale(1) brightness(3);
+    }
+    .service-card {
+      transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s, border-color .3s;
+    }
+    .service-card:hover {
+      transform: translateY(-6px);
+    }
+    .btn-jade {
+      transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+    .btn-jade:hover {
+      background-color: #3A7A52;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(123,201,138,.28);
+    }
+    .form-input {
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #7BC98A;
+      box-shadow: 0 0 0 3px rgba(123,201,138,.15);
+    }
+    .team-card {
+      background: linear-gradient(145deg, #161D27, #0F141B);
+      border: 1px solid rgba(123,201,138,.18);
+      transition: border-color .3s;
+    }
+    .team-card:hover {
+      border-color: rgba(123,201,138,.4);
+    }
+  </style>
+</head>
+
+<body
+  class="font-sans bg-ivory text-espresso antialiased"
+  x-data="{ mobileOpen: false, scrolled: false }"
+  @scroll.window="scrolled = (window.scrollY > 60)"
+>
+
+<!-- ===== NAV ===== -->
+<nav
+  class="fixed top-0 inset-x-0 z-50 transition-all duration-300"
+  :class="scrolled ? 'bg-espresso/95 backdrop-blur-md shadow-lg' : 'bg-transparent'"
+>
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-16">
+
+    <a href="#" class="flex items-center gap-2.5 group">
+      <img src="../copal_logo.png" alt="Copal Inc" class="h-8 transition-transform duration-300 group-hover:scale-105">
+      <span class="font-serif font-bold text-xl text-ivory tracking-tight">Copal Inc</span>
+    </a>
+
+    <ul class="hidden md:flex items-center gap-8">
+      <li><a href="#servicios" class="text-mid-gray hover:text-jade text-sm font-medium transition-colors duration-200">Servicios</a></li>
+      <li><a href="#proceso"   class="text-mid-gray hover:text-jade text-sm font-medium transition-colors duration-200">Proceso</a></li>
+      <li><a href="#equipo"    class="text-mid-gray hover:text-jade text-sm font-medium transition-colors duration-200">Equipo</a></li>
+      <li>
+        <a href="#contacto" class="bg-jade text-espresso text-sm font-semibold px-5 py-2 rounded-full btn-jade inline-block">
+          Hablemos
+        </a>
+      </li>
+    </ul>
+
+    <button
+      class="md:hidden text-ivory p-2 rounded-lg hover:bg-white/10 transition"
+      @click="mobileOpen = !mobileOpen"
+      aria-label="Menú"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path x-show="!mobileOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        <path x-show="mobileOpen"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+      </svg>
+    </button>
+  </div>
+
+  <div
+    x-show="mobileOpen" x-cloak
+    x-transition:enter="transition ease-out duration-200"
+    x-transition:enter-start="opacity-0 -translate-y-2"
+    x-transition:enter-end="opacity-100 translate-y-0"
+    class="md:hidden bg-espresso/98 border-t border-white/10 px-6 py-5 flex flex-col gap-4"
+  >
+    <a href="#servicios" @click="mobileOpen=false" class="text-mid-gray hover:text-jade font-medium">Servicios</a>
+    <a href="#proceso"   @click="mobileOpen=false" class="text-mid-gray hover:text-jade font-medium">Proceso</a>
+    <a href="#equipo"    @click="mobileOpen=false" class="text-mid-gray hover:text-jade font-medium">Equipo</a>
+    <a href="#contacto"  @click="mobileOpen=false" class="bg-jade text-espresso font-semibold px-5 py-2.5 rounded-full text-center btn-jade">Hablemos</a>
+  </div>
+</nav>
+
+
+<!-- ===== HERO ===== -->
+<section class="relative min-h-screen bg-espresso flex items-center overflow-hidden dot-pattern">
+
+  <div class="absolute top-1/3 right-1/4 w-[480px] h-[480px] rounded-full pointer-events-none"
+       style="background: radial-gradient(ellipse, rgba(123,201,138,.12) 0%, transparent 70%)"></div>
+  <div class="absolute bottom-1/4 left-1/6 w-72 h-72 rounded-full pointer-events-none"
+       style="background: radial-gradient(ellipse, rgba(122,74,46,.22) 0%, transparent 70%)"></div>
+
+  <img src="../copal_logo.png" alt="" class="hero-tree" aria-hidden="true">
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-28 pb-20 relative z-10 w-full">
+    <div class="max-w-3xl">
+
+      <div
+        class="inline-flex items-center gap-2 bg-jade/10 border border-jade/25 text-jade text-xs font-semibold tracking-widest uppercase px-4 py-2 rounded-full mb-8"
+        data-aos="fade-down" data-aos-delay="100"
+      >
+        <span class="w-1.5 h-1.5 bg-jade rounded-full animate-pulse"></span>
+        Ciudad de México · Software a medida
+      </div>
+
+      <h1
+        class="font-serif text-5xl sm:text-6xl lg:text-7xl font-bold text-ivory leading-[1.08] mb-6 tracking-tight"
+        data-aos="fade-up" data-aos-delay="200"
+      >
+        Del concepto<br>al producto,<br><span class="tagline-em">sin fricciones.</span>
+      </h1>
+
+      <p
+        class="text-mid-gray text-lg md:text-xl leading-relaxed max-w-xl mb-10"
+        data-aos="fade-up" data-aos-delay="350"
+      >
+        Diseñamos y construimos productos digitales a medida para startups y empresas que quieren crecer con tecnología de verdad.
+      </p>
+
+      <div class="flex flex-wrap gap-4" data-aos="fade-up" data-aos-delay="450">
+        <a href="#contacto" class="bg-jade text-espresso font-semibold px-7 py-3.5 rounded-full btn-jade inline-flex items-center gap-2.5 text-sm">
+          Iniciar proyecto
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+        <a href="#servicios" class="border border-white/20 text-ivory/70 hover:text-ivory hover:border-white/40 font-medium px-7 py-3.5 rounded-full transition-all text-sm">
+          Ver servicios
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="absolute bottom-0 inset-x-0 h-20 bg-gradient-to-t from-ivory to-transparent pointer-events-none"></div>
+</section>
+
+
+<!-- ===== SERVICES ===== -->
+<section id="servicios" class="bg-ivory py-24 px-6 lg:px-10">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="mb-14" data-aos="fade-up">
+      <p class="text-jade-deep text-xs font-semibold tracking-widest uppercase mb-3">Servicios</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold text-espresso leading-tight mb-4">
+        Todo lo que necesitas,<br><em class="tagline-em">en un solo equipo.</em>
+      </h2>
+      <p class="text-slate-c text-lg max-w-xl leading-relaxed">
+        Cubrimos cada etapa del ciclo de vida de tu producto — desde el primer wireframe hasta la operación en producción.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="fade-up" data-aos-delay="0">
+        <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">💻</div>
+        <h3 class="font-serif text-xl font-bold text-espresso mb-2">Desarrollo de Software</h3>
+        <p class="text-slate-c text-sm leading-relaxed">Plataformas web, aplicaciones móviles y sistemas a medida construidos con arquitecturas modernas y buenas prácticas de ingeniería.</p>
+      </div>
+
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="fade-up" data-aos-delay="80">
+        <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">🎨</div>
+        <h3 class="font-serif text-xl font-bold text-espresso mb-2">Diseño UX/UI</h3>
+        <p class="text-slate-c text-sm leading-relaxed">Interfaces intuitivas centradas en el usuario. Diseñamos experiencias que convierten visitantes en clientes y simplifican flujos complejos.</p>
+      </div>
+
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="fade-up" data-aos-delay="160">
+        <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">☁️</div>
+        <h3 class="font-serif text-xl font-bold text-espresso mb-2">Infraestructura Cloud</h3>
+        <p class="text-slate-c text-sm leading-relaxed">Arquitectura escalable y confiable en AWS, GCP o Azure. Tu infraestructura lista para operar sin fricciones y crecer contigo.</p>
+      </div>
+
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="fade-up" data-aos-delay="240">
+        <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">🔧</div>
+        <h3 class="font-serif text-xl font-bold text-espresso mb-2">Soporte y Mantenimiento</h3>
+        <p class="text-slate-c text-sm leading-relaxed">Monitoreo continuo, corrección de bugs, actualizaciones de seguridad y soporte técnico dedicado para mantener tu plataforma al 100%.</p>
+      </div>
+
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default md:col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="320">
+        <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">🔒</div>
+        <h3 class="font-serif text-xl font-bold text-espresso mb-2">Redes y Ciberseguridad</h3>
+        <p class="text-slate-c text-sm leading-relaxed">Auditorías de seguridad, configuración de redes y políticas de protección de datos para blindar tu infraestructura frente a amenazas.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== WHY COPAL ===== -->
+<section class="bg-espresso py-24 px-6 lg:px-10 relative overflow-hidden">
+  <div class="absolute inset-0 dot-pattern opacity-50 pointer-events-none"></div>
+  <div class="max-w-7xl mx-auto relative z-10">
+
+    <div class="mb-14" data-aos="fade-up">
+      <p class="text-jade text-xs font-semibold tracking-widest uppercase mb-3">Por qué Copal</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold text-ivory leading-tight">
+        Tecnología que mueve<br><em class="tagline-em">negocios reales.</em>
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+
+      <div data-aos="fade-up" data-aos-delay="0">
+        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">01</div>
+        <h3 class="font-serif text-lg font-bold text-ivory mb-2">End-to-end</h3>
+        <p class="text-mid-gray text-sm leading-relaxed">De la idea a producción. Un equipo cubre diseño, desarrollo, infraestructura y soporte sin fricciones entre áreas.</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="100">
+        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">02</div>
+        <h3 class="font-serif text-lg font-bold text-ivory mb-2">Transparencia total</h3>
+        <p class="text-mid-gray text-sm leading-relaxed">Cotizaciones detalladas, cronogramas claros y comunicación continua en cada etapa del proyecto.</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="200">
+        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">03</div>
+        <h3 class="font-serif text-lg font-bold text-ivory mb-2">Stack moderno</h3>
+        <p class="text-mid-gray text-sm leading-relaxed">Tecnologías actuales y probadas para entregar productos robustos, escalables y fáciles de mantener.</p>
+      </div>
+
+      <div data-aos="fade-up" data-aos-delay="300">
+        <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">04</div>
+        <h3 class="font-serif text-lg font-bold text-ivory mb-2">Equipo dedicado</h3>
+        <p class="text-mid-gray text-sm leading-relaxed">Ingenieros y diseñadores asignados a tu proyecto que entienden tu contexto y objetivos de negocio.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== PROCESS ===== -->
+<section id="proceso" class="bg-ivory py-24 px-6 lg:px-10">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+      <div data-aos="fade-right">
+        <p class="text-jade-deep text-xs font-semibold tracking-widest uppercase mb-3">Proceso</p>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold text-espresso leading-tight mb-5">
+          Cómo<br><em class="tagline-em">trabajamos.</em>
+        </h2>
+        <p class="text-slate-c text-lg leading-relaxed">
+          Un proceso claro y colaborativo para llevar tu idea al siguiente nivel con la menor fricción posible.
+        </p>
+      </div>
+
+      <div>
+
+        <!-- Steps 1–4 with connector line -->
+        <div class="flex gap-5" data-aos="fade-left" data-aos-delay="0">
+          <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-jade-pale border-2 border-jade flex items-center justify-center flex-shrink-0">
+              <span class="text-jade-deep font-bold text-sm">1</span>
+            </div>
+            <div class="w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
+          </div>
+          <div class="pb-8 pt-1">
+            <h3 class="font-serif text-lg font-bold text-espresso mb-1">Descubrimiento</h3>
+            <p class="text-slate-c text-sm leading-relaxed">Entendemos tu negocio, objetivos y usuarios. Definimos el alcance y el plan de trabajo.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-5" data-aos="fade-left" data-aos-delay="80">
+          <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-jade-pale border-2 border-jade flex items-center justify-center flex-shrink-0">
+              <span class="text-jade-deep font-bold text-sm">2</span>
+            </div>
+            <div class="w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
+          </div>
+          <div class="pb-8 pt-1">
+            <h3 class="font-serif text-lg font-bold text-espresso mb-1">Diseño</h3>
+            <p class="text-slate-c text-sm leading-relaxed">Prototipamos flujos e interfaces. Validamos contigo antes de escribir una sola línea de código.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-5" data-aos="fade-left" data-aos-delay="160">
+          <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-jade-pale border-2 border-jade flex items-center justify-center flex-shrink-0">
+              <span class="text-jade-deep font-bold text-sm">3</span>
+            </div>
+            <div class="w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
+          </div>
+          <div class="pb-8 pt-1">
+            <h3 class="font-serif text-lg font-bold text-espresso mb-1">Desarrollo</h3>
+            <p class="text-slate-c text-sm leading-relaxed">Construimos con metodología ágil. Iteraciones cortas, demos frecuentes y ajustes en tiempo real.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-5" data-aos="fade-left" data-aos-delay="240">
+          <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-jade-pale border-2 border-jade flex items-center justify-center flex-shrink-0">
+              <span class="text-jade-deep font-bold text-sm">4</span>
+            </div>
+            <div class="w-0.5 flex-1 bg-jade-mist/60 mt-1 min-h-8"></div>
+          </div>
+          <div class="pb-8 pt-1">
+            <h3 class="font-serif text-lg font-bold text-espresso mb-1">Entrega</h3>
+            <p class="text-slate-c text-sm leading-relaxed">Desplegamos en producción, entregamos el código fuente y hacemos sesión de capacitación con tu equipo.</p>
+          </div>
+        </div>
+
+        <!-- Step 5 — no connector line -->
+        <div class="flex gap-5" data-aos="fade-left" data-aos-delay="320">
+          <div class="flex flex-col items-center">
+            <div class="w-10 h-10 rounded-full bg-jade flex items-center justify-center flex-shrink-0">
+              <span class="text-espresso font-bold text-sm">5</span>
+            </div>
+          </div>
+          <div class="pt-1">
+            <h3 class="font-serif text-lg font-bold text-espresso mb-1">Soporte continuo</h3>
+            <p class="text-slate-c text-sm leading-relaxed">Te acompañamos post-lanzamiento con monitoreo, mantenimiento y soporte técnico dedicado.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== TEAM ===== -->
+<section id="equipo" class="bg-espresso py-24 px-6 lg:px-10 relative overflow-hidden">
+  <div class="absolute inset-0 dot-pattern opacity-40 pointer-events-none"></div>
+  <div class="max-w-7xl mx-auto relative z-10">
+
+    <div class="mb-14" data-aos="fade-up">
+      <p class="text-jade text-xs font-semibold tracking-widest uppercase mb-3">Equipo</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold text-ivory leading-tight">
+        Las personas<br><em class="tagline-em">detrás del código.</em>
+      </h2>
+    </div>
+
+    <div class="max-w-xs" data-aos="fade-up" data-aos-delay="150">
+      <div class="team-card rounded-2xl p-8">
+        <img
+          src="https://github.com/e1th4nUwU.png"
+          alt="Eithan Treviño"
+          class="w-20 h-20 rounded-full object-cover border-2 border-jade/30 mb-5"
+        >
+        <h3 class="font-serif text-2xl font-bold text-ivory mb-1">Eithan Treviño</h3>
+        <p class="text-jade text-sm font-semibold mb-4">Fundador &amp; CTO</p>
+        <p class="text-mid-gray text-sm leading-relaxed mb-6">
+          Ingeniero de Redes y Datos especializado en cloud, ciberseguridad y desarrollo de software. Certificado CCNA y Microsoft Azure (AZ-900). Presidente de IEEE UNAM.
+        </p>
+        <div class="flex items-center gap-4">
+          <a href="https://linkedin.com/in/eithan-trevino" target="_blank" rel="noopener" class="text-mid-gray hover:text-jade transition-colors" aria-label="LinkedIn">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+            </svg>
+          </a>
+          <a href="https://github.com/e1th4nUwU" target="_blank" rel="noopener" class="text-mid-gray hover:text-jade transition-colors" aria-label="GitHub">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ===== CONTACT ===== -->
+<section id="contacto" class="bg-ivory py-24 px-6 lg:px-10">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+
+      <div data-aos="fade-right">
+        <p class="text-jade-deep text-xs font-semibold tracking-widest uppercase mb-3">Contacto</p>
+        <h2 class="font-serif text-4xl md:text-5xl font-bold text-espresso leading-tight mb-5">
+          ¿Tienes un proyecto<br><em class="tagline-em">en mente?</em>
+        </h2>
+        <p class="text-slate-c text-lg leading-relaxed mb-8">
+          Cuéntanos qué necesitas. Nos ponemos en contacto en menos de 24 horas para agendar una llamada.
+        </p>
+
+        <div class="flex flex-col gap-4">
+          <a href="mailto:contacto@copalinc.com" class="inline-flex items-center gap-3 text-espresso hover:text-jade-deep transition-colors group">
+            <span class="w-10 h-10 bg-jade-pale rounded-full flex items-center justify-center group-hover:bg-jade-mist transition-colors flex-shrink-0">
+              <svg class="w-4 h-4 text-jade-deep" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </span>
+            <span class="font-medium">contacto@copalinc.com</span>
+          </a>
+          <a href="https://instagram.com/copal.inc" target="_blank" rel="noopener" class="inline-flex items-center gap-3 text-espresso hover:text-jade-deep transition-colors group">
+            <span class="w-10 h-10 bg-jade-pale rounded-full flex items-center justify-center group-hover:bg-jade-mist transition-colors flex-shrink-0">
+              <svg class="w-4 h-4 text-jade-deep" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+              </svg>
+            </span>
+            <span class="font-medium">@copal.inc</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Form — replace YOUR_FORM_ID with your Formspree form ID -->
+      <form
+        action="https://formspree.io/f/YOUR_FORM_ID"
+        method="POST"
+        class="flex flex-col gap-4"
+        data-aos="fade-left"
+      >
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <input type="text" name="nombre" placeholder="Nombre" required
+            class="form-input bg-white border border-cream rounded-xl px-4 py-3.5 text-sm text-espresso placeholder-slate-c/50 w-full">
+          <input type="text" name="empresa" placeholder="Empresa"
+            class="form-input bg-white border border-cream rounded-xl px-4 py-3.5 text-sm text-espresso placeholder-slate-c/50 w-full">
+        </div>
+        <input type="email" name="email" placeholder="Correo electrónico" required
+          class="form-input bg-white border border-cream rounded-xl px-4 py-3.5 text-sm text-espresso placeholder-slate-c/50 w-full">
+        <select name="servicio"
+          class="form-input bg-white border border-cream rounded-xl px-4 py-3.5 text-sm text-slate-c w-full appearance-none cursor-pointer">
+          <option value="" disabled selected>¿Qué servicio te interesa?</option>
+          <option value="software">Desarrollo de Software</option>
+          <option value="uxui">Diseño UX/UI</option>
+          <option value="cloud">Infraestructura Cloud</option>
+          <option value="soporte">Soporte y Mantenimiento</option>
+          <option value="seguridad">Redes y Ciberseguridad</option>
+          <option value="otro">Otro / No sé aún</option>
+        </select>
+        <textarea name="mensaje" rows="4" placeholder="Cuéntanos sobre tu proyecto..." required
+          class="form-input bg-white border border-cream rounded-xl px-4 py-3.5 text-sm text-espresso placeholder-slate-c/50 w-full resize-none"></textarea>
+        <button type="submit"
+          class="bg-jade text-espresso font-semibold px-7 py-3.5 rounded-full btn-jade w-full flex items-center justify-center gap-2.5 text-sm">
+          Enviar mensaje
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </button>
+        <p class="text-xs text-slate-c/50 text-center">Respondemos en menos de 24 horas hábiles.</p>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ===== FOOTER ===== -->
+<footer class="bg-espresso px-6 lg:px-10 py-10 border-t border-white/5">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+
+    <div class="flex items-center gap-2.5">
+      <img src="../copal_logo.png" alt="Copal Inc" class="h-7 brightness-0 invert opacity-50">
+      <span class="font-serif font-bold text-lg text-ivory/60">Copal Inc</span>
+    </div>
+
+    <p class="text-mid-gray/50 text-sm">© 2026 Copal Inc · Ciudad de México</p>
+
+    <a href="https://instagram.com/copal.inc" target="_blank" rel="noopener"
+       class="text-mid-gray hover:text-jade transition-colors text-sm flex items-center gap-2">
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+      </svg>
+      @copal.inc
+    </a>
+
+  </div>
+</footer>
+
+
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 60 });
+</script>
+
+</body>
+</html>
