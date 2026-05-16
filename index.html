@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Copal Inc — Transformación Digital</title>
   <meta name="description" content="Diseñamos y construimos productos digitales a medida para startups y empresas en crecimiento.">
-  <link rel="icon" type="image/png" href="copal_logo.png">
+  <link rel="icon" type="image/svg+xml" href="img/copal_tree.svg">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -452,7 +452,7 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-16">
 
     <a href="#" class="flex items-center gap-2.5 group">
-      <img src="copal_logo.png" alt="Copal Inc" class="h-8 transition-transform duration-300 group-hover:scale-105">
+      <img src="img/copal_tree.svg" alt="Copal Inc" class="h-8 transition-transform duration-300 group-hover:scale-105">
       <span class="font-serif font-bold text-xl text-ivory tracking-tight">Copal Inc</span>
     </a>
 
@@ -469,7 +469,7 @@
       <li><a href="#contacto" class="bg-jade text-espresso text-sm font-semibold px-5 py-2 rounded-full btn-jade inline-block" data-i18n="nav_cta">Hablemos</a></li>
     </ul>
 
-    <button class="md:hidden text-ivory p-2 rounded-lg hover:bg-white/10 transition" @click="mobileOpen = !mobileOpen" aria-label="Menú">
+    <button class="md:hidden text-ivory p-2 rounded-lg transition" style="background:rgba(15,20,27,0.65);border:1px solid rgba(255,255,255,0.15)" @click="mobileOpen = !mobileOpen" aria-label="Menú">
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path x-show="!mobileOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
         <path x-show="mobileOpen"  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
@@ -481,7 +481,7 @@
     x-transition:enter="transition ease-out duration-200"
     x-transition:enter-start="opacity-0 -translate-y-2"
     x-transition:enter-end="opacity-100 translate-y-0"
-    class="md:hidden bg-espresso/98 border-t border-white/10 px-6 py-5 flex flex-col gap-4"
+    class="md:hidden border-t border-white/10 px-6 py-5 flex flex-col gap-4" style="background:rgba(15,20,27,0.98)"
   >
     <a href="#servicios" @click="mobileOpen=false" class="text-mid-gray hover:text-jade font-medium" data-i18n="nav_services">Servicios</a>
     <a href="#proceso"   @click="mobileOpen=false" class="text-mid-gray hover:text-jade font-medium" data-i18n="nav_process">Proceso</a>
@@ -998,7 +998,7 @@
 <footer class="bg-espresso px-6 lg:px-10 py-10 border-t border-white/5">
   <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
     <div class="flex items-center gap-2.5">
-      <img src="copal_logo.png" alt="Copal Inc" class="h-7 brightness-0 invert opacity-50">
+      <img src="img/copal_tree.svg" alt="Copal Inc" class="h-7 brightness-0 invert opacity-50">
       <span class="font-serif font-bold text-lg text-ivory/60">Copal Inc</span>
     </div>
     <p class="text-mid-gray/50 text-sm" data-i18n="footer_copy">© 2026 Copal Inc · Ciudad de México</p>
