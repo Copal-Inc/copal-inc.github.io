@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Copal Inc — Transformación Digital</title>
   <meta name="description" content="Diseñamos y construimos productos digitales a medida para startups y empresas en crecimiento.">
+  <link rel="icon" type="image/png" href="copal_logo.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,56 +42,101 @@
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
   <style>
-    [x-cloak] { display: none !important; }
+    html, body { overflow-x: hidden; }
+    [x-cloak]  { display: none !important; }
 
+    /* ---- Dot pattern ---- */
     .dot-pattern {
       background-image: radial-gradient(rgba(123,201,138,.13) 1px, transparent 1px);
       background-size: 28px 28px;
     }
-    .tagline-em {
-      font-style: italic;
-      color: #7BC98A;
-    }
+
+    /* ---- Typography helper ---- */
+    .tagline-em { font-style: italic; color: #7BC98A; }
+
+    /* ---- Hero tree ---- */
     .hero-tree {
       position: absolute;
       right: 4%;
       bottom: 0;
       height: 88%;
-      opacity: .055;
+      opacity: .06;
       pointer-events: none;
       user-select: none;
       filter: grayscale(1) brightness(3);
+      transform-origin: bottom center;
+      animation: treeSway 12s ease-in-out infinite;
     }
+
+    /* ---- Falling leaves ---- */
+    @keyframes leafFall {
+      0%   { transform: translateY(-30px) rotate(0deg)    translateX(0px);  opacity: 0; }
+      6%   { opacity: 1; }
+      88%  { opacity: 0.65; }
+      100% { transform: translateY(105vh) rotate(520deg)  translateX(70px); opacity: 0; }
+    }
+    @keyframes leafFallB {
+      0%   { transform: translateY(-30px) rotate(0deg)    translateX(0px);  opacity: 0; }
+      6%   { opacity: 1; }
+      88%  { opacity: 0.65; }
+      100% { transform: translateY(105vh) rotate(-400deg) translateX(-55px); opacity: 0; }
+    }
+    .leaf {
+      position: absolute;
+      border-radius: 50% 5% 50% 5%;
+      background: rgba(123,201,138,.28);
+      animation: leafFall linear infinite;
+      pointer-events: none;
+    }
+    .leaf.alt {
+      border-radius: 5% 50% 5% 50%;
+      animation-name: leafFallB;
+    }
+
+    /* ---- Tree sway ---- */
+    @keyframes treeSway {
+      0%,100% { transform: rotate(0deg); }
+      28%     { transform: rotate(.7deg); }
+      72%     { transform: rotate(-.5deg); }
+    }
+
+    /* ---- Cards / UI ---- */
     .service-card {
       transition: transform .3s cubic-bezier(.4,0,.2,1), box-shadow .3s, border-color .3s;
     }
-    .service-card:hover {
-      transform: translateY(-6px);
-    }
+    .service-card:hover { transform: translateY(-6px); }
+
     .btn-jade {
       transition: background-color .2s ease, transform .2s ease, box-shadow .2s ease;
     }
     .btn-jade:hover {
       background-color: #3A7A52;
       transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(123,201,138,.28);
+      box-shadow: 0 10px 28px rgba(123,201,138,.3);
     }
-    .form-input {
-      transition: border-color .2s, box-shadow .2s;
-    }
+
+    .form-input { transition: border-color .2s, box-shadow .2s; }
     .form-input:focus {
       outline: none;
       border-color: #7BC98A;
       box-shadow: 0 0 0 3px rgba(123,201,138,.15);
     }
+
     .team-card {
-      background: linear-gradient(145deg, #161D27, #0F141B);
+      background: linear-gradient(145deg,#161D27,#0F141B);
       border: 1px solid rgba(123,201,138,.18);
-      transition: border-color .3s;
+      transition: border-color .3s, transform .3s;
     }
     .team-card:hover {
       border-color: rgba(123,201,138,.4);
+      transform: translateY(-4px);
     }
+    .team-placeholder {
+      border: 1.5px dashed rgba(123,201,138,.15);
+      background: rgba(255,255,255,.02);
+      transition: border-color .3s;
+    }
+    .team-placeholder:hover { border-color: rgba(123,201,138,.3); }
   </style>
 </head>
 
@@ -108,7 +154,7 @@
   <div class="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between h-16">
 
     <a href="#" class="flex items-center gap-2.5 group">
-      <img src="../copal_logo.png" alt="Copal Inc" class="h-8 transition-transform duration-300 group-hover:scale-105">
+      <img src="copal_logo.png" alt="Copal Inc" class="h-8 transition-transform duration-300 group-hover:scale-105">
       <span class="font-serif font-bold text-xl text-ivory tracking-tight">Copal Inc</span>
     </a>
 
@@ -153,12 +199,17 @@
 <!-- ===== HERO ===== -->
 <section class="relative min-h-screen bg-espresso flex items-center overflow-hidden dot-pattern">
 
-  <div class="absolute top-1/3 right-1/4 w-[480px] h-[480px] rounded-full pointer-events-none"
-       style="background: radial-gradient(ellipse, rgba(123,201,138,.12) 0%, transparent 70%)"></div>
-  <div class="absolute bottom-1/4 left-1/6 w-72 h-72 rounded-full pointer-events-none"
-       style="background: radial-gradient(ellipse, rgba(122,74,46,.22) 0%, transparent 70%)"></div>
+  <!-- Leaves container — JS populates this -->
+  <div id="hero-leaves" class="absolute inset-0 pointer-events-none z-0"></div>
 
-  <img src="../copal_logo.png" alt="" class="hero-tree" aria-hidden="true">
+  <!-- Ambient blobs -->
+  <div class="absolute top-1/3 right-1/4 w-96 h-96 rounded-full pointer-events-none"
+       style="background:radial-gradient(ellipse,rgba(123,201,138,.1) 0%,transparent 70%)"></div>
+  <div class="absolute bottom-1/4 left-1/6 w-72 h-72 rounded-full pointer-events-none"
+       style="background:radial-gradient(ellipse,rgba(122,74,46,.2) 0%,transparent 70%)"></div>
+
+  <!-- Watermark tree -->
+  <img src="copal_logo.png" alt="" class="hero-tree" aria-hidden="true">
 
   <div class="max-w-7xl mx-auto px-6 lg:px-10 pt-28 pb-20 relative z-10 w-full">
     <div class="max-w-3xl">
@@ -178,10 +229,8 @@
         Del concepto<br>al producto,<br><span class="tagline-em">sin fricciones.</span>
       </h1>
 
-      <p
-        class="text-mid-gray text-lg md:text-xl leading-relaxed max-w-xl mb-10"
-        data-aos="fade-up" data-aos-delay="350"
-      >
+      <p class="text-mid-gray text-lg md:text-xl leading-relaxed max-w-xl mb-10"
+         data-aos="fade-up" data-aos-delay="350">
         Diseñamos y construimos productos digitales a medida para startups y empresas que quieren crecer con tecnología de verdad.
       </p>
 
@@ -268,31 +317,26 @@
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
-
       <div data-aos="fade-up" data-aos-delay="0">
         <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">01</div>
         <h3 class="font-serif text-lg font-bold text-ivory mb-2">End-to-end</h3>
         <p class="text-mid-gray text-sm leading-relaxed">De la idea a producción. Un equipo cubre diseño, desarrollo, infraestructura y soporte sin fricciones entre áreas.</p>
       </div>
-
       <div data-aos="fade-up" data-aos-delay="100">
         <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">02</div>
         <h3 class="font-serif text-lg font-bold text-ivory mb-2">Transparencia total</h3>
         <p class="text-mid-gray text-sm leading-relaxed">Cotizaciones detalladas, cronogramas claros y comunicación continua en cada etapa del proyecto.</p>
       </div>
-
       <div data-aos="fade-up" data-aos-delay="200">
         <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">03</div>
         <h3 class="font-serif text-lg font-bold text-ivory mb-2">Stack moderno</h3>
         <p class="text-mid-gray text-sm leading-relaxed">Tecnologías actuales y probadas para entregar productos robustos, escalables y fáciles de mantener.</p>
       </div>
-
       <div data-aos="fade-up" data-aos-delay="300">
         <div class="font-serif text-6xl font-bold text-jade/30 mb-3 leading-none">04</div>
         <h3 class="font-serif text-lg font-bold text-ivory mb-2">Equipo dedicado</h3>
         <p class="text-mid-gray text-sm leading-relaxed">Ingenieros y diseñadores asignados a tu proyecto que entienden tu contexto y objetivos de negocio.</p>
       </div>
-
     </div>
   </div>
 </section>
@@ -314,8 +358,6 @@
       </div>
 
       <div>
-
-        <!-- Steps 1–4 with connector line -->
         <div class="flex gap-5" data-aos="fade-left" data-aos-delay="0">
           <div class="flex flex-col items-center">
             <div class="w-10 h-10 rounded-full bg-jade-pale border-2 border-jade flex items-center justify-center flex-shrink-0">
@@ -368,7 +410,6 @@
           </div>
         </div>
 
-        <!-- Step 5 — no connector line -->
         <div class="flex gap-5" data-aos="fade-left" data-aos-delay="320">
           <div class="flex flex-col items-center">
             <div class="w-10 h-10 rounded-full bg-jade flex items-center justify-center flex-shrink-0">
@@ -380,8 +421,8 @@
             <p class="text-slate-c text-sm leading-relaxed">Te acompañamos post-lanzamiento con monitoreo, mantenimiento y soporte técnico dedicado.</p>
           </div>
         </div>
-
       </div>
+
     </div>
   </div>
 </section>
@@ -399,33 +440,69 @@
       </h2>
     </div>
 
-    <div class="max-w-xs" data-aos="fade-up" data-aos-delay="150">
-      <div class="team-card rounded-2xl p-8">
+    <!-- Grid: 3 cols desktop, 2 tablet, 1 mobile — 5 cards total -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- Eithan — real card -->
+      <div class="team-card rounded-2xl p-7" data-aos="fade-up" data-aos-delay="0">
         <img
           src="https://github.com/e1th4nUwU.png"
           alt="Eithan Treviño"
-          class="w-20 h-20 rounded-full object-cover border-2 border-jade/30 mb-5"
+          class="w-16 h-16 rounded-full object-cover border-2 border-jade/30 mb-4"
         >
-        <h3 class="font-serif text-2xl font-bold text-ivory mb-1">Eithan Treviño</h3>
-        <p class="text-jade text-sm font-semibold mb-4">Fundador &amp; CTO</p>
-        <p class="text-mid-gray text-sm leading-relaxed mb-6">
-          Ingeniero de Redes y Datos especializado en cloud, ciberseguridad y desarrollo de software. Certificado CCNA y Microsoft Azure (AZ-900). Presidente de IEEE UNAM.
+        <h3 class="font-serif text-xl font-bold text-ivory mb-0.5">Eithan Treviño</h3>
+        <p class="text-jade text-xs font-semibold tracking-wide mb-3">Fundador &amp; CTO</p>
+        <p class="text-mid-gray text-sm leading-relaxed mb-5">
+          Ingeniero de Redes y Datos. Especialista en cloud, ciberseguridad y desarrollo de software. CCNA · AZ-900 · Presidente IEEE UNAM.
         </p>
-        <div class="flex items-center gap-4">
+        <div class="flex items-center gap-3">
           <a href="https://linkedin.com/in/eithan-trevino" target="_blank" rel="noopener" class="text-mid-gray hover:text-jade transition-colors" aria-label="LinkedIn">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-            </svg>
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
           </a>
           <a href="https://github.com/e1th4nUwU" target="_blank" rel="noopener" class="text-mid-gray hover:text-jade transition-colors" aria-label="GitHub">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-            </svg>
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
           </a>
         </div>
       </div>
-    </div>
 
+      <!-- Placeholders — 4 future members -->
+      <div class="team-placeholder rounded-2xl p-7 flex flex-col items-center justify-center text-center min-h-[220px]" data-aos="fade-up" data-aos-delay="80">
+        <div class="w-16 h-16 rounded-full border-2 border-dashed border-jade/20 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-jade/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
+          </svg>
+        </div>
+        <p class="text-mid-gray/35 text-sm font-medium font-serif italic">Próximamente</p>
+      </div>
+
+      <div class="team-placeholder rounded-2xl p-7 flex flex-col items-center justify-center text-center min-h-[220px]" data-aos="fade-up" data-aos-delay="160">
+        <div class="w-16 h-16 rounded-full border-2 border-dashed border-jade/20 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-jade/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
+          </svg>
+        </div>
+        <p class="text-mid-gray/35 text-sm font-medium font-serif italic">Próximamente</p>
+      </div>
+
+      <div class="team-placeholder rounded-2xl p-7 flex flex-col items-center justify-center text-center min-h-[220px]" data-aos="fade-up" data-aos-delay="240">
+        <div class="w-16 h-16 rounded-full border-2 border-dashed border-jade/20 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-jade/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
+          </svg>
+        </div>
+        <p class="text-mid-gray/35 text-sm font-medium font-serif italic">Próximamente</p>
+      </div>
+
+      <div class="team-placeholder rounded-2xl p-7 flex flex-col items-center justify-center text-center min-h-[220px] sm:col-span-2 lg:col-span-1" data-aos="fade-up" data-aos-delay="320">
+        <div class="w-16 h-16 rounded-full border-2 border-dashed border-jade/20 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-jade/25" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 4v16m8-8H4"/>
+          </svg>
+        </div>
+        <p class="text-mid-gray/35 text-sm font-medium font-serif italic">Próximamente</p>
+      </div>
+
+    </div>
   </div>
 </section>
 
@@ -443,7 +520,6 @@
         <p class="text-slate-c text-lg leading-relaxed mb-8">
           Cuéntanos qué necesitas. Nos ponemos en contacto en menos de 24 horas para agendar una llamada.
         </p>
-
         <div class="flex flex-col gap-4">
           <a href="mailto:contacto@copalinc.com" class="inline-flex items-center gap-3 text-espresso hover:text-jade-deep transition-colors group">
             <span class="w-10 h-10 bg-jade-pale rounded-full flex items-center justify-center group-hover:bg-jade-mist transition-colors flex-shrink-0">
@@ -455,16 +531,14 @@
           </a>
           <a href="https://instagram.com/copal.inc" target="_blank" rel="noopener" class="inline-flex items-center gap-3 text-espresso hover:text-jade-deep transition-colors group">
             <span class="w-10 h-10 bg-jade-pale rounded-full flex items-center justify-center group-hover:bg-jade-mist transition-colors flex-shrink-0">
-              <svg class="w-4 h-4 text-jade-deep" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-              </svg>
+              <svg class="w-4 h-4 text-jade-deep" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
             </span>
             <span class="font-medium">@copal.inc</span>
           </a>
         </div>
       </div>
 
-      <!-- Form — replace YOUR_FORM_ID with your Formspree form ID -->
+      <!-- Formspree — replace YOUR_FORM_ID with your real ID from formspree.io -->
       <form
         action="https://formspree.io/f/YOUR_FORM_ID"
         method="POST"
@@ -509,22 +583,16 @@
 <!-- ===== FOOTER ===== -->
 <footer class="bg-espresso px-6 lg:px-10 py-10 border-t border-white/5">
   <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-
     <div class="flex items-center gap-2.5">
-      <img src="../copal_logo.png" alt="Copal Inc" class="h-7 brightness-0 invert opacity-50">
+      <img src="copal_logo.png" alt="Copal Inc" class="h-7 brightness-0 invert opacity-50">
       <span class="font-serif font-bold text-lg text-ivory/60">Copal Inc</span>
     </div>
-
     <p class="text-mid-gray/50 text-sm">© 2026 Copal Inc · Ciudad de México</p>
-
     <a href="https://instagram.com/copal.inc" target="_blank" rel="noopener"
        class="text-mid-gray hover:text-jade transition-colors text-sm flex items-center gap-2">
-      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-      </svg>
+      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
       @copal.inc
     </a>
-
   </div>
 </footer>
 
@@ -532,6 +600,25 @@
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
   AOS.init({ duration: 700, easing: 'ease-out-cubic', once: true, offset: 60 });
+
+  // Falling leaves animation
+  (function () {
+    const container = document.getElementById('hero-leaves');
+    for (let i = 0; i < 16; i++) {
+      const leaf = document.createElement('div');
+      const size = 5 + Math.random() * 9;
+      leaf.className = 'leaf' + (i % 2 === 0 ? ' alt' : '');
+      leaf.style.cssText = [
+        `left:${4 + Math.random() * 92}%`,
+        `width:${size}px`,
+        `height:${size * 1.5}px`,
+        `animation-duration:${11 + Math.random() * 14}s`,
+        `animation-delay:${-(Math.random() * 28)}s`,
+        `opacity:${0.12 + Math.random() * 0.28}`,
+      ].join(';');
+      container.appendChild(leaf);
+    }
+  })();
 </script>
 
 </body>
