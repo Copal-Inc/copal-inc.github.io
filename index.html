@@ -91,10 +91,20 @@
         step4_desc:          'Desplegamos en producción y hacemos sesión de capacitación con tu equipo para que dominen la solución desde el día uno.',
         step5_title:         'Soporte continuo',
         step5_desc:          'Te acompañamos post-lanzamiento con monitoreo, mantenimiento y soporte técnico dedicado.',
+        nav_about:           'Nosotros',
+        about_label:         'Quiénes somos',
+        about_h2:            'Lo que nos mueve,<br><em class="tagline-em">lo que nos guía.</em>',
+        about_sub:           'Más que una agencia de software, somos un equipo con un propósito claro: construir tecnología que mueve negocios reales.',
+        about_mission_title: 'Misión',
+        about_mission_desc:  'Desarrollar soluciones digitales innovadoras y de alta calidad, enfocadas en el diseño de interfaces y la experiencia de usuario, así como en el desarrollo front-end y back-end, que permitan a empresas y clientes mejorar su presencia digital y optimizar la interacción con sus usuarios.',
+        about_vision_title:  'Visión',
+        about_vision_desc:   'Consolidarnos como una empresa reconocida en el desarrollo de soluciones digitales integrales, destacando por la calidad de nuestros productos, la innovación en el diseño de experiencias de usuario y nuestra capacidad para adaptarnos a las necesidades del entorno tecnológico.',
+        about_goal_title:    'Objetivo',
+        about_goal_desc:     'Desarrollar soluciones web innovadoras y funcionales que posicionen a Copal dentro del sector digital, incrementando nuestra competitividad a través de la innovación tecnológica constante.',
         team_label:          'Equipo',
         team_h2:             'Las personas<br><em class="tagline-em">detrás del código.</em>',
         team_unam:           'Ingenieros UNAM',
-        eithan_role:         'Fundador & CTO',
+        eithan_role:         'CTO',
         eithan_bio:          'Ingeniero de Redes y Datos. Especialista en cloud, ciberseguridad y desarrollo de software. CCNA · AZ-900 · Presidente IEEE UNAM.',
         team_soon:           'Próximamente',
         contact_label:       'Contacto',
@@ -170,10 +180,20 @@
         step4_desc:          'We deploy to production and run a training session with your team so they own the solution from day one.',
         step5_title:         'Ongoing Support',
         step5_desc:          'We accompany you post-launch with monitoring, maintenance and dedicated technical support.',
+        nav_about:           'About',
+        about_label:         'About us',
+        about_h2:            'What drives us,<br><em class="tagline-em">what guides us.</em>',
+        about_sub:           'More than a software agency, we are a team with a clear purpose: building technology that moves real businesses.',
+        about_mission_title: 'Mission',
+        about_mission_desc:  'To develop innovative, high-quality digital solutions focused on interface design and user experience, as well as front-end and back-end development, that help companies and clients improve their digital presence and optimize interaction with their users.',
+        about_vision_title:  'Vision',
+        about_vision_desc:   'To establish ourselves as a recognized company in the development of comprehensive digital solutions, standing out for the quality of our products, innovation in user experience design, and our ability to adapt to the needs of the technological environment.',
+        about_goal_title:    'Goal',
+        about_goal_desc:     'To develop innovative, functional web solutions that position Copal within the digital sector, increasing our competitiveness through constant technological innovation.',
         team_label:          'Team',
         team_h2:             'The people<br><em class="tagline-em">behind the code.</em>',
         team_unam:           'UNAM Engineers',
-        eithan_role:         'Founder & CTO',
+        eithan_role:         'CTO',
         eithan_bio:          'Networks & Data Engineer. Cloud, cybersecurity and software development specialist. CCNA · AZ-900 · IEEE UNAM President.',
         team_soon:           'Coming soon',
         contact_label:       'Contact',
@@ -283,6 +303,24 @@
     .leaf.alt {
       border-radius: 5% 50% 5% 50%;
       animation-name: leafFallB;
+    }
+
+    /* ─── Cursor / tap leaf scatter ─── */
+    .cursor-leaf {
+      position: fixed;
+      border-radius: 50% 5% 50% 5%;
+      background: rgba(123,201,138,.55);
+      pointer-events: none;
+      z-index: 60;
+      animation: cursorLeafScatter .85s ease-out forwards;
+    }
+    .cursor-leaf.alt {
+      border-radius: 5% 50% 5% 50%;
+      background: rgba(122,74,46,.45);
+    }
+    @keyframes cursorLeafScatter {
+      0%   { transform: translate(-50%,-50%) rotate(0deg) scale(1);    opacity: .9; }
+      100% { transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) rotate(var(--rot)) scale(.35); opacity: 0; }
     }
 
     /* ─── SVG Animated Tree ─── */
@@ -459,6 +497,7 @@
     <ul class="hidden md:flex items-center gap-6">
       <li><a href="#servicios" class="text-mid-gray hover:text-jade text-sm font-medium transition-colors" data-i18n="nav_services">Servicios</a></li>
       <li><a href="#proceso"   class="text-mid-gray hover:text-jade text-sm font-medium transition-colors" data-i18n="nav_process">Proceso</a></li>
+      <li><a href="#nosotros"  class="text-mid-gray hover:text-jade text-sm font-medium transition-colors" data-i18n="nav_about">Nosotros</a></li>
       <li><a href="#equipo"    class="text-mid-gray hover:text-jade text-sm font-medium transition-colors" data-i18n="nav_team">Equipo</a></li>
       <!-- Language toggle -->
       <li class="flex items-center gap-0.5 border border-white/15 rounded-full px-1 py-0.5">
@@ -485,6 +524,7 @@
   >
     <a href="#servicios" @click="mobileOpen=false" class="text-mid-gray hover:text-jade font-medium" data-i18n="nav_services">Servicios</a>
     <a href="#proceso"   @click="mobileOpen=false" class="text-mid-gray hover:text-jade font-medium" data-i18n="nav_process">Proceso</a>
+    <a href="#nosotros"  @click="mobileOpen=false" class="text-mid-gray hover:text-jade font-medium" data-i18n="nav_about">Nosotros</a>
     <a href="#equipo"    @click="mobileOpen=false" class="text-mid-gray hover:text-jade font-medium" data-i18n="nav_team">Equipo</a>
     <!-- Language toggle mobile -->
     <div class="flex items-center gap-1">
@@ -789,6 +829,46 @@
 </section>
 
 
+<!-- ===== QUIÉNES SOMOS ===== -->
+<section id="nosotros" class="bg-ivory py-24 px-6 lg:px-10">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="mb-14" data-aos="fade-up">
+      <p class="text-jade-deep text-xs font-semibold tracking-widest uppercase mb-3" data-i18n="about_label">Quiénes somos</p>
+      <h2 class="font-serif text-4xl md:text-5xl font-bold text-espresso leading-tight mb-4"
+          data-i18n-html="about_h2">
+        Lo que nos mueve,<br><em class="tagline-em">lo que nos guía.</em>
+      </h2>
+      <p class="text-slate-c text-lg max-w-xl leading-relaxed" data-i18n="about_sub">
+        Más que una agencia de software, somos un equipo con un propósito claro: construir tecnología que mueve negocios reales.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="zoom-in" data-aos-delay="0">
+        <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">🧭</div>
+        <h3 class="font-serif text-xl font-bold text-espresso mb-2" data-i18n="about_mission_title">Misión</h3>
+        <p class="text-slate-c text-sm leading-relaxed" data-i18n="about_mission_desc">Desarrollar soluciones digitales innovadoras y de alta calidad, enfocadas en el diseño de interfaces y la experiencia de usuario, así como en el desarrollo front-end y back-end, que permitan a empresas y clientes mejorar su presencia digital y optimizar la interacción con sus usuarios.</p>
+      </div>
+
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="zoom-in" data-aos-delay="80">
+        <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">🔭</div>
+        <h3 class="font-serif text-xl font-bold text-espresso mb-2" data-i18n="about_vision_title">Visión</h3>
+        <p class="text-slate-c text-sm leading-relaxed" data-i18n="about_vision_desc">Consolidarnos como una empresa reconocida en el desarrollo de soluciones digitales integrales, destacando por la calidad de nuestros productos, la innovación en el diseño de experiencias de usuario y nuestra capacidad para adaptarnos a las necesidades del entorno tecnológico.</p>
+      </div>
+
+      <div class="service-card bg-white rounded-2xl p-8 border border-cream hover:border-jade-mist hover:shadow-xl hover:shadow-jade/5 cursor-default" data-aos="zoom-in" data-aos-delay="160">
+        <div class="w-12 h-12 bg-jade-pale rounded-xl flex items-center justify-center mb-5 text-2xl">🎯</div>
+        <h3 class="font-serif text-xl font-bold text-espresso mb-2" data-i18n="about_goal_title">Objetivo</h3>
+        <p class="text-slate-c text-sm leading-relaxed" data-i18n="about_goal_desc">Desarrollar soluciones web innovadoras y funcionales que posicionen a Copal dentro del sector digital, incrementando nuestra competitividad a través de la innovación tecnológica constante.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
 <!-- ===== TEAM ===== -->
 <section id="equipo" class="bg-espresso py-24 px-6 lg:px-10 relative overflow-hidden">
   <div class="absolute inset-0 dot-pattern opacity-40 pointer-events-none"></div>
@@ -811,10 +891,10 @@
 
       <!-- Eithan — real card -->
       <div class="team-card rounded-2xl p-7" data-aos="fade-up" data-aos-delay="0">
-        <img src="https://github.com/e1th4nUwU.png" alt="Eithan Treviño"
+        <img src="img/team/eithan_trevino.jpeg" alt="Eithan Treviño"
              class="w-16 h-16 rounded-full object-cover border-2 border-jade/30 mb-4">
         <h3 class="font-serif text-xl font-bold text-ivory mb-0.5">Eithan Treviño</h3>
-        <p class="text-jade text-xs font-semibold tracking-wide mb-3" data-i18n="eithan_role">Fundador &amp; CTO</p>
+        <p class="text-jade text-xs font-semibold tracking-wide mb-3" data-i18n="eithan_role">CTO</p>
         <p class="text-mid-gray text-sm leading-relaxed mb-5" data-i18n="eithan_bio">
           Ingeniero de Redes y Datos. Especialista en cloud, ciberseguridad y desarrollo de software. CCNA · AZ-900 · Presidente IEEE UNAM.
         </p>
@@ -1084,6 +1164,53 @@
       ].join(';');
       c.appendChild(l);
     }
+  })();
+
+  // ── Cursor / tap leaf scatter ──
+  (function () {
+    let lastX = null, lastY = null;
+    const MIN_GAP = 26;
+
+    function spawnLeaf(x, y) {
+      const leaf = document.createElement('div');
+      const alt = Math.random() < 0.5;
+      leaf.className = 'cursor-leaf' + (alt ? ' alt' : '');
+      const size = 7 + Math.random() * 8;
+      const angle = Math.random() * Math.PI * 2;
+      const dist = 26 + Math.random() * 46;
+      leaf.style.cssText = [
+        `left:${x}px`, `top:${y}px`,
+        `width:${size}px`, `height:${size * 1.4}px`,
+        `--dx:${Math.cos(angle) * dist}px`,
+        `--dy:${Math.sin(angle) * dist}px`,
+        `--rot:${Math.random() * 360 - 180}deg`,
+      ].join(';');
+      leaf.addEventListener('animationend', () => leaf.remove());
+      document.body.appendChild(leaf);
+    }
+
+    function burst(x, y, count) {
+      for (let i = 0; i < count; i++) {
+        spawnLeaf(x + (Math.random() * 14 - 7), y + (Math.random() * 14 - 7));
+      }
+    }
+
+    function maybeTrail(x, y) {
+      if (lastX !== null) {
+        const dx = x - lastX, dy = y - lastY;
+        if (dx * dx + dy * dy < MIN_GAP * MIN_GAP) return;
+      }
+      lastX = x; lastY = y;
+      burst(x, y, Math.random() < 0.35 ? 2 : 1);
+    }
+
+    window.addEventListener('mousemove', e => maybeTrail(e.clientX, e.clientY));
+    window.addEventListener('touchstart', e => {
+      for (const t of e.touches) burst(t.clientX, t.clientY, 5);
+    }, { passive: true });
+    window.addEventListener('touchmove', e => {
+      for (const t of e.touches) maybeTrail(t.clientX, t.clientY);
+    }, { passive: true });
   })();
 </script>
 
